@@ -1,9 +1,9 @@
-import {type FC} from 'react'
+import { type FC } from 'react'
 import sampleSrc from '@/assets/images/sample.png'
 
 const Card: FC = () => {
   return (
-    <div className="max-w-sm bg-white border border-gray-50 rounded-xl shadow">
+    <div className="max-w-sm bg-white border border-gray-50 rounded-xl shadow h-fit">
       <a className="block pt-3 px-3" href="/">
         <img className="rounded-xl" src={sampleSrc} alt="sample"/>
       </a>
