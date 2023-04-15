@@ -2,7 +2,7 @@ import { type FC } from 'react'
 import GoogleMapReact from 'google-map-react'
 
 const Map: FC = () => {
-  const key = import.meta.env.REACT_APP_MAP_API_KEY
+  const key = import.meta.env.VITE_MAP_API_KEY
 
   const defaultProps = {
     center: { lat: 59.95, lng: 30.33 },
