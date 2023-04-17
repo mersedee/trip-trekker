@@ -1,8 +1,10 @@
-import { type FC } from 'react'
+import { type FC, useEffect, useState } from 'react'
 import Header from '@/components/Header'
 import Card from '@/components/Card'
 import Map from '@/components/Map'
 import DropDown from '@/components/DropDown'
+import { getPlaces } from '@/api'
+import { type Restaurant } from '@/types/api'
 
 const menus = [
   { label: 'Restaurants', value: 'restaurant' },
@@ -18,6 +20,20 @@ const rates = [
 ]
 
 const Home: FC = () => {
+  const [places, setPlaces] = useState<Restaurant[]>([])
+  const [coordinates, setCoordinates] = useState<any>({ lat: 52.13, lng: 5.29 })
+  const [bounds, setBounds] = useState<any>()
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {
+      setCoordinates({ lat: latitude, lng: longitude })
+    })
+  }, [])
+
+  useEffect(() => {
+    getPlaces(bounds.ne, bounds.sw).then((data) => { setPlaces(data) })
+  }, [coordinates, bounds])
+
   return (
     <>
       <Header />
@@ -34,7 +50,13 @@ const Home: FC = () => {
           </div>
         </div>
 
-        <div className="relative rounded-xl overflow-hidden"><Map /></div>
+        <div className="relative rounded-xl overflow-hidden">
+          <Map
+            coordinates={coordinates}
+            setCoordinates={setCoordinates}
+            setBounds={setBounds}
+          />
+        </div>
       </div>
     </>
   )
