@@ -22,7 +22,7 @@ const rates = [
 const Home: FC = () => {
   const [places, setPlaces] = useState<Restaurant[]>([])
   const [coordinates, setCoordinates] = useState<any>({ lat: 52.13, lng: 5.29 })
-  const [bounds, setBounds] = useState<any>()
+  const [bounds, setBounds] = useState<any>(null)
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {
@@ -31,7 +31,9 @@ const Home: FC = () => {
   }, [])
 
   useEffect(() => {
-    getPlaces(bounds.ne, bounds.sw).then((data) => { setPlaces(data) })
+    if (bounds) {
+      getPlaces(bounds.ne, bounds.sw).then((data) => { setPlaces(data) })
+    }
   }, [coordinates, bounds])
 
   return (
