@@ -31,8 +31,9 @@ const Home: FC = () => {
   }, [])
 
   useEffect(() => {
-    if (bounds) {
+    if (bounds !== null) {
       getPlaces(bounds.ne, bounds.sw).then((data) => { setPlaces(data) })
+        .catch((error) => { console.warn(error) })
     }
   }, [coordinates, bounds])
 
@@ -47,8 +48,17 @@ const Home: FC = () => {
           </div>
 
           <div className="grid grid-cols-2 gap-6 pr-8 pt-4">
-            <Card />
-            <Card />
+            {places.map((place: Restaurant) => (
+              <Card
+                key={place.location_id}
+                name={place.name}
+                photo={place.photo?.images.large.url}
+                ranking={place.raw_ranking}
+                address={`${place.address_obj?.street1}, ${place.address_obj?.city}`}
+                description={place.description}
+                website={place.website}
+              />
+            ))}
           </div>
         </div>
 

@@ -1,23 +1,54 @@
 import { type FC } from 'react'
-import sampleSrc from '@/assets/images/sample.png'
+import { Star, MapPin } from 'react-feather'
+import sampleSrc from '@/assets/images/sample-restaurant.png'
 
-const Card: FC = () => {
+interface Props {
+  name?: string
+  photo?: string
+  ranking?: string
+  address?: string
+  description?: string
+  website?: string
+}
+
+const Card: FC<Props> = ({
+  photo,
+  name,
+  ranking,
+  address,
+  description,
+  website
+}) => {
   return (
-    <div className="max-w-sm bg-white border border-gray-50 rounded-xl shadow h-fit">
-      <a className="block pt-3 px-3" href="/">
-        <img className="rounded-xl" src={sampleSrc} alt="sample"/>
+    <div className="max-w-sm bg-white border border-gray-50 rounded-xl shadow">
+      <a href={website} target="_blank" className="block pt-3 px-3" rel="noreferrer">
+        <img className="rounded-xl object-cover h-[200px] w-full" src={photo ?? sampleSrc} alt="sample"/>
       </a>
 
       <div className="p-4">
-        <a href="/">
-          <h5 className="mb-2 text-xl font-bold tracking-tight">
-              Noteworthy technology acquisitions 2021
+        <a href={website} target="_blank" rel="noreferrer">
+          <h5 className="flex justify-between items-start tracking-tight">
+            <span className="text-lg font-medium">{name}</span>
+            {ranking &&
+                  <div className="flex justify-between items-center mt-1">
+                    <Star size={20} fill="gold" color="gold"/>
+                    <span className="text-sm ml-1">{Math.round(+ranking * 2) / 2}</span>
+                  </div>
+            }
           </h5>
         </a>
-        <p className="mb-3 font-normal text-gray-700">
-            Here are the biggest enterprise technology
-            acquisitions of 2021 so far, in reverse chronological order.
+
+        <div className="mt-2 text-sm text-gray-300">
+          <div className="flex">
+            <MapPin size={14} className="mt-1 mr-1 min-w-[14px]" />
+            {address}
+          </div>
+        </div>
+
+        <p className="text-sm mt-2 font-normal text-gray-700">
+          {description ? description?.slice(0, 115).concat('...') : ''}
         </p>
+
       </div>
     </div>
 
