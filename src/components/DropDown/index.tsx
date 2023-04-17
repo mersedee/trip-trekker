@@ -7,13 +7,15 @@ interface Menu {
 }
 
 interface Props {
+  label: string
   menus: Menu[]
   width?: number
 }
 
-const DropDown: FC<Props> = ({ menus, width }) => {
+const DropDown: FC<Props> = ({ label, menus, width }) => {
+  const fLabel = { label, value: '' }
   const [open, setOpen] = useState<boolean>(false)
-  const [selectedOption, setSelectedOption] = useState<Menu>(menus[0])
+  const [selectedOption, setSelectedOption] = useState<Menu>(fLabel)
   const ref = useRef<HTMLDivElement>(null)
 
   const handleClickOutside = (event: any): void => {
