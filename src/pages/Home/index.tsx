@@ -58,6 +58,7 @@ const Home: FC = () => {
         ? <div className="grid grid-cols-2 px-4">
           <PlaceList places={places} />
           <Map
+            places={places}
             className="relative rounded-xl overflow-hidden"
             coordinates={coordinates}
             setCoordinates={setCoordinates}
@@ -67,6 +68,7 @@ const Home: FC = () => {
         : <div className="px-4">
           {showMap
             ? <Map
+              places={places}
               className="relative rounded-xl overflow-hidden"
               coordinates={coordinates}
               setCoordinates={setCoordinates}

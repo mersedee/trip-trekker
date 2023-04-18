@@ -1,15 +1,22 @@
 import { type FC, type Dispatch, type SetStateAction } from 'react'
 import GoogleMapReact from 'google-map-react'
-import { type Coordinates, type Bounds } from '@/types'
+import { type Coordinates, type Bounds, type Restaurant } from '@/types'
+import Pointer from '@/components/Pointer'
 
 interface Props {
   coordinates: Coordinates
   setCoordinates: Dispatch<SetStateAction<Coordinates>>
   setBounds: Dispatch<SetStateAction<Bounds | null>>
   className?: string
+  places: Restaurant[]
 }
 
-const Map: FC<Props> = ({ coordinates, setCoordinates, setBounds, className }) => {
+const Map: FC<Props> = ({
+  places,
+  coordinates,
+  setCoordinates, setBounds,
+  className
+}) => {
   const key = import.meta.env.VITE_MAP_API_KEY
 
   const defaultProps = {
@@ -30,7 +37,20 @@ const Map: FC<Props> = ({ coordinates, setCoordinates, setBounds, className }) =
         defaultCenter={defaultProps.center}
         defaultZoom={defaultProps.zoom}
         onChange={onChange}
-      />
+      >
+        {places?.map((place) => (
+          <Pointer
+            key={place.location_id}
+            name={place.name}
+            photo={place.photo?.images.large.url}
+            ranking={place.raw_ranking}
+            price={place.price}
+            website={place.website}
+            lat={place.latitude}
+            lng={place.longitude}
+          />
+        ))}
+      </GoogleMapReact>
     </div>
   )
 }
