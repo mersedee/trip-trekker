@@ -6,9 +6,10 @@ interface Props {
   coordinates: Coordinates
   setCoordinates: Dispatch<SetStateAction<Coordinates>>
   setBounds: Dispatch<SetStateAction<Bounds | null>>
+  className?: string
 }
 
-const Map: FC<Props> = ({ coordinates, setCoordinates, setBounds }) => {
+const Map: FC<Props> = ({ coordinates, setCoordinates, setBounds, className }) => {
   const key = import.meta.env.VITE_MAP_API_KEY
 
   const defaultProps = {
@@ -22,13 +23,15 @@ const Map: FC<Props> = ({ coordinates, setCoordinates, setBounds }) => {
   }
 
   return (
-    <GoogleMapReact
-      style={{ height: '100vh', width: '100%' }}
-      bootstrapURLKeys={{ key }}
-      defaultCenter={defaultProps.center}
-      defaultZoom={defaultProps.zoom}
-      onChange={onChange}
-    />
+    <div className={className}>
+      <GoogleMapReact
+        style={{ height: '90vh', width: '100%' }}
+        bootstrapURLKeys={{ key }}
+        defaultCenter={defaultProps.center}
+        defaultZoom={defaultProps.zoom}
+        onChange={onChange}
+      />
+    </div>
   )
 }
 

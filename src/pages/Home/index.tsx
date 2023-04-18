@@ -1,10 +1,11 @@
 import { type FC, useEffect, useState } from 'react'
 import Header from '@/components/Header'
-import Card from '@/components/Card'
 import Map from '@/components/Map'
 import DropDown from '@/components/DropDown'
 import { getPlaces } from '@/api'
+import { useWindowSize } from '@/hooks/useWindowSize'
 import { type Restaurant, type Bounds, type Coordinates } from '@/types'
+import PlaceList from '@/pages/Home/PlaceList'
 
 const menus = [
   { label: 'Restaurants', value: 'restaurant' },
@@ -20,56 +21,61 @@ const rates = [
 ]
 
 const Home: FC = () => {
+  const windowSize = useWindowSize()
+  const [showMap, setShowMap] = useState<boolean>(true)
   const [places, setPlaces] = useState<Restaurant[]>([])
   const [coordinates, setCoordinates] = useState<Coordinates>({ lat: 52.13, lng: 5.29 })
   const [bounds, setBounds] = useState<Bounds | null>(null)
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {
-      setCoordinates({ lat: latitude, lng: longitude })
-    })
-  }, [])
-
-  useEffect(() => {
     if (bounds !== null) {
-      getPlaces(bounds.ne, bounds.sw).then((data) => { setPlaces(data) })
-        .catch((error) => { console.warn(error) })
+      // getPlaces(bounds.ne, bounds.sw).then((data) => { setPlaces(data) })
+      //   .catch((error) => { console.warn(error) })
     }
   }, [coordinates, bounds])
+
+  const onToggleMap = (): void => { setShowMap((prevState: boolean) => !prevState) }
 
   return (
     <>
       <Header />
-      <div className="grid grid-cols-2 py-8 px-4">
-        <div>
-          <div className="flex gap-6">
-            <DropDown label="Type" menus={menus} width={150} />
-            <DropDown label="Rates" menus={rates} width={150} />
-          </div>
 
-          <div className="grid grid-cols-2 gap-6 pr-8 pt-4">
-            {places.map((place: Restaurant) => (
-              <Card
-                key={place.location_id}
-                name={place.name}
-                photo={place.photo?.images.large.url}
-                ranking={place.raw_ranking}
-                address={`${place.address_obj?.street1}, ${place.address_obj?.city}`}
-                description={place.description}
-                website={place.website}
-              />
-            ))}
-          </div>
-        </div>
+      <div className="flex flex-wrap gap-6 px-4 my-4">
+        <DropDown label="Type" menus={menus} width={150} />
+        <DropDown label="Rates" menus={rates} width={150} />
+        {windowSize.width > 768
+          ? null
+          : <button
+            type="button"
+            onClick={onToggleMap}
+            className="text-sm border border-gray-50 w-[150px] text-center focus:outline-none py-2.5 font-medium rounded-lg">
+            {showMap ? 'Hide' : 'Show'} Map
+          </button>
+        }
+      </div>
 
-        <div className="relative rounded-xl overflow-hidden">
+      {windowSize.width > 768
+        ? <div className="grid grid-cols-2 px-4">
+          <PlaceList places={places} />
           <Map
+            className="relative rounded-xl overflow-hidden"
             coordinates={coordinates}
             setCoordinates={setCoordinates}
             setBounds={setBounds}
           />
         </div>
-      </div>
+        : <div className="px-4">
+          {showMap
+            ? <Map
+              className="relative rounded-xl overflow-hidden"
+              coordinates={coordinates}
+              setCoordinates={setCoordinates}
+              setBounds={setBounds}
+            />
+            : <PlaceList places={places} />
+          }
+        </div>
+      }
     </>
   )
 }
