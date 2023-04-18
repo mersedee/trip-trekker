@@ -30,10 +30,10 @@ const Card: FC<Props> = ({
           <h5 className="flex justify-between items-start tracking-tight">
             <span className="text-lg font-medium">{name}</span>
             {ranking &&
-                  <div className="flex justify-between items-center mt-1">
-                    <Star size={20} fill="gold" color="gold"/>
-                    <span className="text-sm ml-1">{Math.round(+ranking * 2) / 2}</span>
-                  </div>
+              <div className="flex justify-between items-center mt-1">
+                <Star size={20} fill="gold" color="gold"/>
+                <span className="text-sm ml-1">{Math.round(+ranking * 2) / 2}</span>
+              </div>
             }
           </h5>
         </a>

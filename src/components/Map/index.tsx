@@ -1,15 +1,11 @@
 import { type FC, type Dispatch, type SetStateAction } from 'react'
 import GoogleMapReact from 'google-map-react'
-
-interface Coordinates {
-  lat: number
-  lng: number
-}
+import { type Coordinates, type Bounds } from '@/types'
 
 interface Props {
   coordinates: Coordinates
   setCoordinates: Dispatch<SetStateAction<Coordinates>>
-  setBounds: Dispatch<SetStateAction<any>>
+  setBounds: Dispatch<SetStateAction<Bounds | null>>
 }
 
 const Map: FC<Props> = ({ coordinates, setCoordinates, setBounds }) => {
@@ -20,7 +16,7 @@ const Map: FC<Props> = ({ coordinates, setCoordinates, setBounds }) => {
     zoom: 11
   }
 
-  const onChange = (e: any) => {
+  const onChange = (e: any): void => {
     setCoordinates({ lat: e.center.lat, lng: e.center.lng })
     setBounds({ ne: e.marginBounds.ne, sw: e.marginBounds.sw })
   }

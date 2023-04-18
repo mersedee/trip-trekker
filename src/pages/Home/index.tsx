@@ -4,7 +4,7 @@ import Card from '@/components/Card'
 import Map from '@/components/Map'
 import DropDown from '@/components/DropDown'
 import { getPlaces } from '@/api'
-import { type Restaurant } from '@/types/api'
+import { type Restaurant, type Bounds, type Coordinates } from '@/types'
 
 const menus = [
   { label: 'Restaurants', value: 'restaurant' },
@@ -21,8 +21,8 @@ const rates = [
 
 const Home: FC = () => {
   const [places, setPlaces] = useState<Restaurant[]>([])
-  const [coordinates, setCoordinates] = useState<any>({ lat: 52.13, lng: 5.29 })
-  const [bounds, setBounds] = useState<any>(null)
+  const [coordinates, setCoordinates] = useState<Coordinates>({ lat: 52.13, lng: 5.29 })
+  const [bounds, setBounds] = useState<Bounds | null>(null)
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {

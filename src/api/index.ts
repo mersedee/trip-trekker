@@ -1,8 +1,9 @@
 import axios from 'axios'
+import { type Coordinates } from '@/types'
 
 const url = 'https://travel-advisor.p.rapidapi.com/restaurants/list-in-boundary'
 
-export const getPlaces = async (ne, sw): Promise<any> => {
+export const getPlaces = async (ne: Coordinates, sw: Coordinates): Promise<any> => {
   const options = {
     params: {
       bl_latitude: sw.lat,
