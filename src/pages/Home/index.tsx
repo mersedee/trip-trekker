@@ -29,8 +29,8 @@ const Home: FC = () => {
 
   useEffect(() => {
     if (bounds !== null) {
-      // getPlaces(bounds.ne, bounds.sw).then((data) => { setPlaces(data) })
-      //   .catch((error) => { console.warn(error) })
+      getPlaces(bounds.ne, bounds.sw).then((data) => { setPlaces(data) })
+        .catch((error) => { console.warn(error) })
     }
   }, [coordinates, bounds])
 
