@@ -38,9 +38,9 @@ const Map: FC<Props> = ({
         defaultZoom={defaultProps.zoom}
         onChange={onChange}
       >
-        {places?.map((place) => (
+        {places?.map((place, index) => (
           <Pointer
-            key={place.location_id}
+            key={index}
             name={place.name}
             photo={place.photo?.images.large.url}
             ranking={place.raw_ranking}

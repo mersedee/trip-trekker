@@ -22,10 +22,7 @@ const Pointer: FC<Props> = ({
   lng
 }) => {
   return (
-    <div
-      data-lat={lat}
-      data-lng={lng}
-    >
+    <div data-lat={lat} data-lng={lng}>
       <a
         href={website ?? '/'}
         target="_blank"
