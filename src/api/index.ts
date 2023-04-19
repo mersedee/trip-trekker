@@ -1,9 +1,7 @@
 import axios from 'axios'
 import { type Coordinates } from '@/types'
 
-const url = 'https://travel-advisor.p.rapidapi.com/restaurants/list-in-boundary'
-
-export const getPlaces = async (ne: Coordinates, sw: Coordinates): Promise<any> => {
+export const getPlaces = async (type: string, ne: Coordinates, sw: Coordinates): Promise<any> => {
   const options = {
     params: {
       bl_latitude: sw.lat,
@@ -17,7 +15,7 @@ export const getPlaces = async (ne: Coordinates, sw: Coordinates): Promise<any> 
     }
   }
   try {
-    const { data: { data } } = await axios.get(url, options)
+    const { data: { data } } = await axios.get(`https://travel-advisor.p.rapidapi.com/${type}/list-in-boundary`, options)
     return data
   } catch (error) {
     console.error(error)

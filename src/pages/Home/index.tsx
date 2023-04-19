@@ -2,11 +2,11 @@ import { type FC, useEffect, useState } from 'react'
 import { Header, Map, DropDown } from '@/components'
 import { getPlaces } from '@/api'
 import { useWindowSize } from '@/hooks/useWindowSize'
-import { type Restaurant, type Bounds, type Coordinates } from '@/types'
+import { type Restaurant, type Bounds, type Coordinates, type Menu } from '@/types'
 import PlaceList from '@/pages/Home/PlaceList'
 
 const menus = [
-  { label: 'Restaurants', value: 'restaurant' },
+  { label: 'Restaurants', value: 'restaurants' },
   { label: 'Hotels', value: 'hotels' },
   { label: 'Attractions', value: 'attraction' }
 ]
@@ -15,22 +15,33 @@ const rates = [
   { value: '0', label: 'All' },
   { value: '3', label: 'Above 3.0' },
   { value: '4', label: 'Above 4.0' },
-  { value: '5', label: 'Above 4.5' }
+  { value: '4.5', label: 'Above 4.5' }
 ]
 
 const Home: FC = () => {
   const windowSize = useWindowSize()
   const [showMap, setShowMap] = useState<boolean>(true)
   const [places, setPlaces] = useState<Restaurant[]>([])
+  const [filteredPlaces, setFilteredPlaces] = useState<Restaurant[]>([])
   const [coordinates, setCoordinates] = useState<Coordinates>({ lat: 52.13, lng: 5.29 })
   const [bounds, setBounds] = useState<Bounds | null>(null)
+  const [rating, setRating] = useState<Menu>({ label: 'Rating', value: '0' })
+  const [type, setType] = useState<Menu>({ label: 'Type', value: 'restaurants' })
 
   useEffect(() => {
     if (bounds !== null) {
-      getPlaces(bounds.ne, bounds.sw).then((data) => { setPlaces(data) })
-        .catch((error) => { console.warn(error) })
+      getPlaces(type.value, bounds.ne, bounds.sw).then((data) => {
+        setPlaces(data)
+        setFilteredPlaces([])
+      })
+        .catch((error) => { console.log(error) })
     }
-  }, [coordinates, bounds])
+  }, [type, coordinates, bounds])
+
+  useEffect(() => {
+    const filtered = places.filter(place => Number(place.rating) > Number(rating.value))
+    setFilteredPlaces(filtered)
+  }, [rating])
 
   const onToggleMap = (): void => { setShowMap((prevState: boolean) => !prevState) }
 
@@ -39,8 +50,18 @@ const Home: FC = () => {
       <Header />
 
       <div className="flex flex-wrap gap-6 px-4 my-4">
-        <DropDown label="Type" menus={menus} width={150} />
-        <DropDown label="Rates" menus={rates} width={150} />
+        <DropDown
+          menus={menus}
+          width={150}
+          selectedOption={type}
+          setSelectedOption={setType}
+        />
+        <DropDown
+          menus={rates}
+          width={150}
+          selectedOption={rating}
+          setSelectedOption={setRating}
+        />
         {windowSize.width > 768
           ? null
           : <button
@@ -54,9 +75,9 @@ const Home: FC = () => {
 
       {windowSize.width > 768
         ? <div className="grid grid-cols-2 px-4">
-          <PlaceList places={places} />
+          <PlaceList places={filteredPlaces.length ? filteredPlaces : places} />
           <Map
-            places={places}
+            places={filteredPlaces.length ? filteredPlaces : places}
             className="relative rounded-xl overflow-hidden"
             coordinates={coordinates}
             setCoordinates={setCoordinates}
@@ -66,13 +87,13 @@ const Home: FC = () => {
         : <div className="px-4">
           {showMap
             ? <Map
-              places={places}
+              places={filteredPlaces.length ? filteredPlaces : places}
               className="relative rounded-xl overflow-hidden"
               coordinates={coordinates}
               setCoordinates={setCoordinates}
               setBounds={setBounds}
             />
-            : <PlaceList places={places} />
+            : <PlaceList places={filteredPlaces.length ? filteredPlaces : places} />
           }
         </div>
       }

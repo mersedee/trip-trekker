@@ -1,21 +1,16 @@
-import { type FC, useState, useRef, useEffect } from 'react'
+import { type FC, type Dispatch, type SetStateAction, useState, useRef, useEffect } from 'react'
 import { ChevronDown } from 'react-feather'
-
-interface Menu {
-  label: string
-  value: string
-}
+import { type Menu } from '@/types'
 
 interface Props {
-  label: string
   menus: Menu[]
   width?: number
+  selectedOption: Menu
+  setSelectedOption: Dispatch<SetStateAction<Menu>>
 }
 
-const DropDown: FC<Props> = ({ label, menus, width }) => {
-  const fLabel = { label, value: '' }
+const DropDown: FC<Props> = ({ menus, width, selectedOption, setSelectedOption }) => {
   const [open, setOpen] = useState<boolean>(false)
-  const [selectedOption, setSelectedOption] = useState<Menu>(fLabel)
   const ref = useRef<HTMLDivElement>(null)
 
   const handleClickOutside = (event: any): void => {

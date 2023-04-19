@@ -51,7 +51,6 @@ const Card: FC<Props> = ({
         <p className="text-sm mt-2 font-normal text-gray-700">
           {description ? description?.slice(0, 115).concat('...') : ''}
         </p>
-
       </div>
     </div>
 
