@@ -31,7 +31,7 @@ const Home: FC = () => {
   useEffect(() => {
     if (bounds !== null) {
       getPlaces(type.value, bounds.ne, bounds.sw).then((data) => {
-        setPlaces(data)
+        setPlaces(data.filter((place: Restaurant) => place.name))
         setFilteredPlaces([])
       })
         .catch((error) => { console.log(error) })

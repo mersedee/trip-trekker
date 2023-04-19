@@ -42,21 +42,20 @@ const Map: FC<Props> = ({
         defaultZoom={defaultProps.zoom}
         onChange={onChange}
       >
-        {places?.map((place, index) => place.name
-          ? (
-            <Pointer
-              key={index}
-              name={place.name}
-              photo={place.photo?.images.large.url}
-              ranking={place.raw_ranking}
-              price={place.price}
-              lat={place.latitude}
-              lng={place.longitude}
-              website={place.website}
-              active={index === activeIndex}
-              onToggle={() => { handleToggle(index) }}
-            />)
-          : null)}
+        {places?.map((place, index) =>
+          <Pointer
+            key={index}
+            name={place.name}
+            photo={place.photo?.images.large.url}
+            ranking={place.raw_ranking}
+            price={place.price}
+            lat={place.latitude}
+            lng={place.longitude}
+            website={place.website}
+            active={index === activeIndex}
+            onToggle={() => { handleToggle(index) }}
+          />)
+        }
       </GoogleMapReact>
     </div>
   )
