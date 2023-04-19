@@ -1,7 +1,5 @@
 import { type FC, useEffect, useState } from 'react'
-import Header from '@/components/Header'
-import Map from '@/components/Map'
-import DropDown from '@/components/DropDown'
+import { Header, Map, DropDown } from '@/components'
 import { getPlaces } from '@/api'
 import { useWindowSize } from '@/hooks/useWindowSize'
 import { type Restaurant, type Bounds, type Coordinates } from '@/types'

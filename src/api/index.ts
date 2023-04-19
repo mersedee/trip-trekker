@@ -18,7 +18,6 @@ export const getPlaces = async (ne: Coordinates, sw: Coordinates): Promise<any> 
   }
   try {
     const { data: { data } } = await axios.get(url, options)
-    console.log(data)
     return data
   } catch (error) {
     console.error(error)

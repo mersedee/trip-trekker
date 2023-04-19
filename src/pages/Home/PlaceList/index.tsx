@@ -1,6 +1,6 @@
 import { type FC } from 'react'
 import { type Restaurant } from '@/types'
-import Card from '@/components/Card'
+import { Card } from '@/components'
 
 interface Props {
   places: Restaurant[]
