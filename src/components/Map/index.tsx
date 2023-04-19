@@ -1,4 +1,4 @@
-import { type FC, type Dispatch, type SetStateAction } from 'react'
+import { type FC, type Dispatch, type SetStateAction, useState } from 'react'
 import GoogleMapReact from 'google-map-react'
 import { type Coordinates, type Bounds, type Restaurant } from '@/types'
 import Pointer from '@/components/Pointer'
@@ -14,11 +14,13 @@ interface Props {
 const Map: FC<Props> = ({
   places,
   coordinates,
-  setCoordinates, setBounds,
+  setCoordinates,
+  setBounds,
   className
 }) => {
-  const key = import.meta.env.VITE_MAP_API_KEY
+  const [activeIndex, setActiveIndex] = useState<number | null>(null)
 
+  const key = import.meta.env.VITE_MAP_API_KEY
   const defaultProps = {
     center: coordinates,
     zoom: 11
@@ -29,6 +31,8 @@ const Map: FC<Props> = ({
     setBounds({ ne: e.marginBounds.ne, sw: e.marginBounds.sw })
   }
 
+  const handleToggle = (index: number): void => { setActiveIndex(index) }
+
   return (
     <div className={className}>
       <GoogleMapReact
@@ -38,18 +42,21 @@ const Map: FC<Props> = ({
         defaultZoom={defaultProps.zoom}
         onChange={onChange}
       >
-        {places?.map((place, index) => (
-          <Pointer
-            key={index}
-            name={place.name}
-            photo={place.photo?.images.large.url}
-            ranking={place.raw_ranking}
-            price={place.price}
-            website={place.website}
-            lat={place.latitude}
-            lng={place.longitude}
-          />
-        ))}
+        {places?.map((place, index) => place.name
+          ? (
+            <Pointer
+              key={index}
+              name={place.name}
+              photo={place.photo?.images.large.url}
+              ranking={place.raw_ranking}
+              price={place.price}
+              lat={place.latitude}
+              lng={place.longitude}
+              website={place.website}
+              active={index === activeIndex}
+              onToggle={() => { handleToggle(index) }}
+            />)
+          : null)}
       </GoogleMapReact>
     </div>
   )

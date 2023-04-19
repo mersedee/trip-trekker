@@ -9,6 +9,8 @@ interface Props {
   address?: string
   description?: string
   website?: string
+  selected?: boolean
+  refEl?: any
 }
 
 const Card: FC<Props> = ({
@@ -19,6 +21,7 @@ const Card: FC<Props> = ({
   description,
   website
 }) => {
+
   return (
     <div className="max-w-sm bg-white border border-gray-50 rounded-xl shadow">
       <a href={website} target="_blank" className="block pt-3 px-3" rel="noreferrer">
