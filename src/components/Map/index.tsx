@@ -6,7 +6,7 @@ import Pointer from '@/components/Pointer'
 interface Props {
   coordinates: Coordinates
   setCoordinates: Dispatch<SetStateAction<Coordinates>>
-  setBounds: Dispatch<SetStateAction<Bounds | null>>
+  setBounds: Dispatch<SetStateAction<Bounds>>
   className?: string
   places: Restaurant[]
 }
@@ -38,7 +38,7 @@ const Map: FC<Props> = ({
       <GoogleMapReact
         style={{ height: '90vh', width: '100%' }}
         bootstrapURLKeys={{ key }}
-        defaultCenter={defaultProps.center}
+        center={defaultProps.center}
         defaultZoom={defaultProps.zoom}
         onChange={onChange}
       >

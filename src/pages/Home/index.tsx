@@ -24,19 +24,19 @@ const Home: FC = () => {
   const [places, setPlaces] = useState<Restaurant[]>([])
   const [filteredPlaces, setFilteredPlaces] = useState<Restaurant[]>([])
   const [coordinates, setCoordinates] = useState<Coordinates>({ lat: 52.13, lng: 5.29 })
-  const [bounds, setBounds] = useState<Bounds | null>(null)
+  const [bounds, setBounds] = useState<Bounds>({} as any)
   const [rating, setRating] = useState<Menu>({ label: 'Rating', value: '0' })
   const [type, setType] = useState<Menu>({ label: 'Type', value: 'restaurants' })
 
   useEffect(() => {
-    if (bounds !== null) {
+    if (bounds.ne && bounds.sw) {
       getPlaces(type.value, bounds.ne, bounds.sw).then((data) => {
-        setPlaces(data.filter((place: Restaurant) => place.name))
+        setPlaces(data?.filter((place: Restaurant) => place.name))
         setFilteredPlaces([])
       })
         .catch((error) => { console.log(error) })
     }
-  }, [type, coordinates, bounds])
+  }, [type, bounds])
 
   useEffect(() => {
     const filtered = places.filter(place => Number(place.rating) > Number(rating.value))
@@ -47,7 +47,7 @@ const Home: FC = () => {
 
   return (
     <>
-      <Header />
+      <Header setCoordinates={setCoordinates} />
 
       <div className="flex flex-wrap gap-6 px-4 my-4">
         <DropDown

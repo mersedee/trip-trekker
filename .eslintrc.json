@@ -26,6 +26,7 @@
         "react/no-unescaped-entities": ["off"],
         "@typescript-eslint/restrict-template-expressions": 0,
         "@typescript-eslint/strict-boolean-expressions": 0,
-        "react/no-unknown-property": ["error", { "ignore": ["lat", "lng"] }]
+        "react/no-unknown-property": ["error", { "ignore": ["lat", "lng"] }],
+        "@typescript-eslint/ban-ts-comment": ["error", {"ts-ignore": "allow-with-description"}]
     }
 }
