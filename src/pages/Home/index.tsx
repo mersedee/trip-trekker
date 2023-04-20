@@ -20,6 +20,7 @@ const rates = [
 
 const Home: FC = () => {
   const windowSize = useWindowSize()
+  const [loading, setLoading] = useState<boolean>(false)
   const [showMap, setShowMap] = useState<boolean>(true)
   const [places, setPlaces] = useState<Restaurant[]>([])
   const [filteredPlaces, setFilteredPlaces] = useState<Restaurant[]>([])
@@ -29,12 +30,17 @@ const Home: FC = () => {
   const [type, setType] = useState<Menu>({ label: 'Type', value: 'restaurants' })
 
   useEffect(() => {
+    setLoading(true)
     if (bounds.ne && bounds.sw) {
       getPlaces(type.value, bounds.ne, bounds.sw).then((data) => {
         setPlaces(data?.filter((place: Restaurant) => place.name))
         setFilteredPlaces([])
+        setLoading(false)
       })
-        .catch((error) => { console.log(error) })
+        .catch((error) => {
+          console.log(error)
+          setLoading(false)
+        })
     }
   }, [type, bounds])
 
@@ -75,7 +81,7 @@ const Home: FC = () => {
 
       {windowSize.width > 768
         ? <div className="grid grid-cols-2 px-4">
-          <PlaceList places={filteredPlaces.length ? filteredPlaces : places} />
+          <PlaceList loading={loading} places={filteredPlaces.length ? filteredPlaces : places} />
           <Map
             places={filteredPlaces.length ? filteredPlaces : places}
             className="relative rounded-xl overflow-hidden"
@@ -93,7 +99,7 @@ const Home: FC = () => {
               setCoordinates={setCoordinates}
               setBounds={setBounds}
             />
-            : <PlaceList places={filteredPlaces.length ? filteredPlaces : places} />
+            : <PlaceList loading={loading} places={filteredPlaces.length ? filteredPlaces : places} />
           }
         </div>
       }
