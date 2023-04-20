@@ -2,6 +2,7 @@ import { type FC, type Dispatch, type SetStateAction, useState } from 'react'
 import GoogleMapReact from 'google-map-react'
 import { type Coordinates, type Bounds, type Restaurant } from '@/types'
 import Pointer from '@/components/Pointer'
+import styles from './styles'
 
 interface Props {
   coordinates: Coordinates
@@ -41,6 +42,7 @@ const Map: FC<Props> = ({
         center={defaultProps.center}
         defaultZoom={defaultProps.zoom}
         onChange={onChange}
+        options={{ disableDefaultUI: true, zoomControl: true, styles }}
       >
         {places?.map((place, index) =>
           <Pointer
