@@ -1,10 +1,10 @@
 import { type FC } from 'react'
-import { type Restaurant } from '@/types'
+import { type Place } from '@/types'
 import { Card, Loading } from '@/components'
 
 interface Props {
   loading: boolean
-  places: Restaurant[]
+  places: Place[]
 }
 
 const PlaceList: FC<Props> = ({ loading, places }) => {
@@ -15,14 +15,14 @@ const PlaceList: FC<Props> = ({ loading, places }) => {
       </div>)
     : (
       <div className="grid sm:grid-cols-2 grid-cols-1 w-fit mx-auto gap-6 pr-8 max-h-[90vh] overflow-y-auto">
-        {places?.map((place: Restaurant) =>
+        {places?.map((place: Place) =>
           <Card
-            key={place.location_id}
+            key={place.place_id}
             name={place.name}
-            photo={place.photo?.images.large.url}
-            ranking={place.raw_ranking}
-            address={`${place.address_obj?.street1}, ${place.address_obj?.city}`}
-            description={place.description}
+            photo={place.photos_sample[0].photo_url}
+            ranking={place.rating}
+            address={place.address}
+            description={place.about?.summary}
             website={place.website}
           />)
         }

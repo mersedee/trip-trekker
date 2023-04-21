@@ -1,6 +1,6 @@
 import { type FC, type Dispatch, type SetStateAction, useState } from 'react'
 import GoogleMapReact from 'google-map-react'
-import { type Coordinates, type Bounds, type Restaurant } from '@/types'
+import { type Coordinates, type Bounds, type Place } from '@/types'
 import Pointer from '@/components/Pointer'
 import styles from './styles'
 
@@ -9,7 +9,7 @@ interface Props {
   setCoordinates: Dispatch<SetStateAction<Coordinates>>
   setBounds: Dispatch<SetStateAction<Bounds>>
   className?: string
-  places: Restaurant[]
+  places: Place[]
 }
 
 const Map: FC<Props> = ({
@@ -46,11 +46,11 @@ const Map: FC<Props> = ({
       >
         {places?.map((place, index) =>
           <Pointer
-            key={index}
+            key={place.place_id}
             name={place.name}
-            photo={place.photo?.images.large.url}
-            ranking={place.raw_ranking}
-            price={place.price}
+            photo={place.photos_sample[0].photo_url}
+            ranking={place.rating}
+            price={place.price_level}
             lat={place.latitude}
             lng={place.longitude}
             website={place.website}

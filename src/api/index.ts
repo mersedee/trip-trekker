@@ -1,21 +1,23 @@
 import axios from 'axios'
-import { type Coordinates } from '@/types'
 
-export const getPlaces = async (type: string, ne: Coordinates, sw: Coordinates): Promise<any> => {
+export const getLocalBusiness = async (type: string, lat: number, lng: number): Promise<any> => {
   const options = {
     params: {
-      bl_latitude: sw.lat,
-      tr_latitude: ne.lat,
-      bl_longitude: sw.lng,
-      tr_longitude: ne.lng
+      query: type,
+      limit: '20',
+      lat,
+      lng,
+      zoom: '13'
     },
     headers: {
-      'X-RapidAPI-Key': import.meta.env.VITE_TRAVEL_API_KEY,
-      'X-RapidAPI-Host': 'travel-advisor.p.rapidapi.com'
+      'X-RapidAPI-Key': import.meta.env.VITE_BUSINESSES_API_KEY,
+      'X-RapidAPI-Host': 'local-business-data.p.rapidapi.com'
     }
   }
+
   try {
-    const { data: { data } } = await axios.get(`https://travel-advisor.p.rapidapi.com/${type}/list-in-boundary`, options)
+    const { data: { data } } = await axios.get('https://local-business-data.p.rapidapi.com/search', options)
+    console.warn(data)
     return data
   } catch (error) {
     console.error(error)

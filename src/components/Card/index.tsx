@@ -5,7 +5,7 @@ import sampleSrc from '@/assets/images/sample-restaurant.png'
 interface Props {
   name?: string
   photo?: string
-  ranking?: string
+  ranking?: number
   address?: string
   description?: string
   website?: string
@@ -21,7 +21,6 @@ const Card: FC<Props> = ({
   description,
   website
 }) => {
-
   return (
     <div className="max-w-sm bg-white border border-gray-50 rounded-xl shadow">
       <a href={website} target="_blank" className="block pt-3 px-3" rel="noreferrer">
@@ -35,7 +34,7 @@ const Card: FC<Props> = ({
             {ranking &&
               <div className="flex justify-between items-center mt-1">
                 <Star size={20} fill="gold" color="gold"/>
-                <span className="text-sm ml-1">{Math.round(+ranking * 2) / 2}</span>
+                <span className="text-sm ml-1">{Math.round(ranking * 2) / 2}</span>
               </div>
             }
           </h5>

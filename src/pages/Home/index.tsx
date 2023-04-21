@@ -1,29 +1,15 @@
 import { type FC, useEffect, useState } from 'react'
 import { Header, Map, DropDown } from '@/components'
-import { getPlaces } from '@/api'
-import { useWindowSize } from '@/hooks/useWindowSize'
-import { type Restaurant, type Bounds, type Coordinates, type Menu } from '@/types'
+import { getLocalBusiness } from '@/api'
+import { type Place, type Bounds, type Coordinates, type Menu } from '@/types'
 import PlaceList from '@/pages/Home/PlaceList'
-
-const menus = [
-  { label: 'Restaurants', value: 'restaurants' },
-  { label: 'Hotels', value: 'hotels' },
-  { label: 'Attractions', value: 'attraction' }
-]
-
-const rates = [
-  { value: '0', label: 'All' },
-  { value: '3', label: 'Above 3.0' },
-  { value: '4', label: 'Above 4.0' },
-  { value: '4.5', label: 'Above 4.5' }
-]
+import { menus, rates } from '@/static'
 
 const Home: FC = () => {
-  const windowSize = useWindowSize()
   const [loading, setLoading] = useState<boolean>(false)
   const [showMap, setShowMap] = useState<boolean>(true)
-  const [places, setPlaces] = useState<Restaurant[]>([])
-  const [filteredPlaces, setFilteredPlaces] = useState<Restaurant[]>([])
+  const [places, setPlaces] = useState<Place[]>([])
+  const [filteredPlaces, setFilteredPlaces] = useState<Place[]>([])
   const [coordinates, setCoordinates] = useState<Coordinates>({ lat: 52.13, lng: 5.29 })
   const [bounds, setBounds] = useState<Bounds>({} as any)
   const [rating, setRating] = useState<Menu>({ label: 'Rating', value: '0' })
@@ -31,17 +17,11 @@ const Home: FC = () => {
 
   useEffect(() => {
     setLoading(true)
-    if (bounds.ne && bounds.sw) {
-      getPlaces(type.value, bounds.ne, bounds.sw).then((data) => {
-        setPlaces(data?.filter((place: Restaurant) => place.name))
-        setFilteredPlaces([])
-        setLoading(false)
-      })
-        .catch((error) => {
-          console.log(error)
-          setLoading(false)
-        })
-    }
+    getLocalBusiness(type.value, coordinates.lat, coordinates.lng).then((data) => {
+      setPlaces(data?.filter((place: Place) => place.name))
+      setFilteredPlaces([])
+      setLoading(false)
+    }).catch((error) => { console.log(error) })
   }, [type, bounds])
 
   useEffect(() => {
@@ -68,41 +48,38 @@ const Home: FC = () => {
           selectedOption={rating}
           setSelectedOption={setRating}
         />
-        {windowSize.width > 768
-          ? null
-          : <button
-            type="button"
-            onClick={onToggleMap}
-            className="text-sm border border-gray-50 w-[150px] text-center focus:outline-none py-2.5 font-medium rounded-lg">
-            {showMap ? 'Hide' : 'Show'} Map
-          </button>
-        }
+        <button
+          type="button"
+          onClick={onToggleMap}
+          className="md:hidden block text-sm border border-gray-50 w-[150px] text-center focus:outline-none py-2.5 font-medium rounded-lg">
+          {showMap ? 'Hide' : 'Show'} Map
+        </button>
       </div>
 
-      {windowSize.width > 768
-        ? <div className="grid grid-cols-2 px-4">
-          <PlaceList loading={loading} places={filteredPlaces.length ? filteredPlaces : places} />
-          <Map
+      <div className="md:grid hidden grid-cols-2 px-4">
+        <PlaceList loading={loading} places={filteredPlaces.length ? filteredPlaces : places} />
+        <Map
+          places={filteredPlaces.length ? filteredPlaces : places}
+          className="relative rounded-xl overflow-hidden"
+          coordinates={coordinates}
+          setCoordinates={setCoordinates}
+          setBounds={setBounds}
+        />
+      </div>
+
+      <div className="md:hidden block px-4">
+        {showMap
+          ? <Map
             places={filteredPlaces.length ? filteredPlaces : places}
             className="relative rounded-xl overflow-hidden"
             coordinates={coordinates}
             setCoordinates={setCoordinates}
             setBounds={setBounds}
           />
-        </div>
-        : <div className="px-4">
-          {showMap
-            ? <Map
-              places={filteredPlaces.length ? filteredPlaces : places}
-              className="relative rounded-xl overflow-hidden"
-              coordinates={coordinates}
-              setCoordinates={setCoordinates}
-              setBounds={setBounds}
-            />
-            : <PlaceList loading={loading} places={filteredPlaces.length ? filteredPlaces : places} />
-          }
-        </div>
-      }
+          : <PlaceList loading={loading} places={filteredPlaces.length ? filteredPlaces : places} />
+        }
+      </div>
+
     </>
   )
 }

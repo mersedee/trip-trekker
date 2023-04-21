@@ -5,11 +5,11 @@ import sampleSrc from '@/assets/images/sample-restaurant.png'
 interface Props {
   name?: string
   photo?: string
-  price?: string
-  ranking?: string
+  price?: any
+  ranking?: number
   website?: string
-  lat?: string
-  lng?: string
+  lat?: number
+  lng?: number
   active: boolean
   onToggle: () => void
 }
