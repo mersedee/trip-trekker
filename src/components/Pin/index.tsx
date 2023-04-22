@@ -13,6 +13,7 @@ interface Props {
   active: boolean
   onToggle: () => void
   onCloseDetail: () => void
+  isOnHover: boolean
 }
 
 const Pin: FC<Props> = ({
@@ -22,13 +23,19 @@ const Pin: FC<Props> = ({
   ranking,
   active,
   onToggle,
-  onCloseDetail
+  onCloseDetail,
+  isOnHover
 }) => {
   return (
     <>
-      <div className="relative z-10 hover:z-20 hover:scale-[1.10] ease-in-out duration-300" onClick={onToggle}>
-        <div className="pin w-fit relative cursor-pointer min-h-4 min-w-4 px-[12px] py-[6px] rounded-lg mb-1 bg-white border border-solid border-transparent">
-          <MapPin size={16} />
+      <div
+        className={`relative z-10 hover:z-20 hover:scale-[1.10] ease-in-out duration-300 ${isOnHover ? 'z-20' : ''}`}
+        onClick={onToggle}
+      >
+        <div
+          className={`pin w-fit relative cursor-pointer min-h-4 min-w-4 px-[12px] py-[6px] rounded-lg mb-1 border border-solid border-transparent ease-in-out 
+          ${isOnHover ? 'bg-gray-500 after:bg-gray-500' : 'bg-white after:bg-white'}`}>
+          <MapPin size={16} color={isOnHover ? 'white' : 'black'} />
         </div>
       </div>
 

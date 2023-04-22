@@ -8,12 +8,14 @@ interface Props {
   coordinates: Coordinates
   className?: string
   places: Place[]
+  hoverId: string | null
 }
 
 const Map: FC<Props> = ({
   places,
   coordinates,
-  className
+  className,
+  hoverId
 }) => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
 
@@ -49,6 +51,7 @@ const Map: FC<Props> = ({
             active={index === activeIndex}
             onToggle={() => { handleToggle(index) }}
             onCloseDetail={onCloseDetail}
+            isOnHover={hoverId === place.place_id}
           />)
         }
       </GoogleMapReact>

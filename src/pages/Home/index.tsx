@@ -14,6 +14,7 @@ const Home: FC = () => {
   const [filteredPlaces, setFilteredPlaces] = useState<Place[]>([])
   const [rating, setRating] = useState<Menu>({ label: 'Rating', value: '0' })
   const [type, setType] = useState<Menu>({ label: 'Type', value: 'restaurants' })
+  const [hoveredId, setHoveredId] = useState<string | null>(null)
 
   useEffect(() => {
     setLoading(true)
@@ -30,6 +31,8 @@ const Home: FC = () => {
   }, [rating])
 
   const onToggleMap = (): void => { setShowMap((prevState: boolean) => !prevState) }
+
+  const onHover = (id: string | null): void => { setHoveredId(id); console.warn(id) }
 
   return (
     <>
@@ -59,9 +62,11 @@ const Home: FC = () => {
       <div className="md:grid hidden grid-cols-2 px-4">
         <PlaceList
           loading={loading}
+          onHover={onHover}
           places={filteredPlaces.length ? filteredPlaces : places}
         />
         <Map
+          hoverId={hoveredId}
           places={filteredPlaces.length ? filteredPlaces : places}
           className="relative rounded-xl overflow-hidden"
           coordinates={coordinates}
@@ -71,12 +76,14 @@ const Home: FC = () => {
       <div className="md:hidden block px-4">
         {showMap
           ? <Map
+            hoverId={hoveredId}
             places={filteredPlaces.length ? filteredPlaces : places}
             className="relative rounded-xl overflow-hidden"
             coordinates={coordinates}
           />
           : <PlaceList
             loading={loading}
+            onHover={onHover}
             places={filteredPlaces.length ? filteredPlaces : places}
           />
         }
