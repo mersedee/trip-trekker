@@ -12,6 +12,7 @@ interface Props {
   lng?: number
   active: boolean
   onToggle: () => void
+  onCloseDetail: () => void
 }
 
 const Pin: FC<Props> = ({
@@ -20,7 +21,8 @@ const Pin: FC<Props> = ({
   price,
   ranking,
   active,
-  onToggle
+  onToggle,
+  onCloseDetail
 }) => {
   return (
     <>
@@ -33,9 +35,9 @@ const Pin: FC<Props> = ({
       {active &&
           <div className="relative z-30 flex bg-white border border-gray-50 rounded-lg shadow flex-row w-fit p-2 mt-2 ml-[-96px]">
             <X
-              size={20}
+              size={18}
               className="cursor-pointer absolute right-2 top-2"
-              onClick={onToggle}
+              onClick={onCloseDetail}
             />
 
             <img

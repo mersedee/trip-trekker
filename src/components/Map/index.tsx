@@ -25,6 +25,8 @@ const Map: FC<Props> = ({
 
   const handleToggle = (index: number): void => { setActiveIndex(index) }
 
+  const onCloseDetail = (): void => { setActiveIndex(null) }
+
   return (
     <div className={className}>
       <GoogleMapReact
@@ -46,6 +48,7 @@ const Map: FC<Props> = ({
             website={place.website}
             active={index === activeIndex}
             onToggle={() => { handleToggle(index) }}
+            onCloseDetail={onCloseDetail}
           />)
         }
       </GoogleMapReact>
