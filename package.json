@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "server": "npx json-server -p 3500 -w data/db.json"
   },
   "dependencies": {
     "@react-google-maps/api": "^2.18.1",

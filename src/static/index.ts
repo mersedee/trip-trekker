@@ -1,7 +1,8 @@
 export const menus = [
   { label: 'Restaurants', value: 'restaurants' },
   { label: 'Hotels', value: 'hotels' },
-  { label: 'Bars', value: 'bars' }
+  { label: 'Bars', value: 'bars' },
+  { label: 'Museums', value: 'museums' }
 ]
 
 export const rates = [

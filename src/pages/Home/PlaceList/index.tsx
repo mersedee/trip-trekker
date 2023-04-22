@@ -19,7 +19,7 @@ const PlaceList: FC<Props> = ({ loading, places }) => {
           <Card
             key={place.place_id}
             name={place.name}
-            photo={place.photos_sample[0].photo_url}
+            photo={place.photos_sample ? place.photos_sample[0].photo_url : undefined}
             ranking={place.rating}
             address={place.address}
             description={place.about?.summary}

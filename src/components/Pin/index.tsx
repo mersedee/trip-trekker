@@ -25,7 +25,7 @@ const Pin: FC<Props> = ({
   return (
     <>
       <div className="relative z-10 hover:z-20 hover:scale-[1.10] ease-in-out duration-300" onClick={onToggle}>
-        <div className="pin w-fit relative cursor-pointer min-h-4 min-w-4 px-2 py-1 rounded-lg mb-1 bg-white border border-solid border-transparent">
+        <div className="pin w-fit relative cursor-pointer min-h-4 min-w-4 px-[12px] py-[6px] rounded-lg mb-1 bg-white border border-solid border-transparent">
           <MapPin size={16} />
         </div>
       </div>

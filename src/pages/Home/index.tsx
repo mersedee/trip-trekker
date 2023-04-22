@@ -1,28 +1,27 @@
 import { type FC, useEffect, useState } from 'react'
 import { Header, Map, DropDown } from '@/components'
 import { getLocalBusiness } from '@/api'
-import { type Place, type Bounds, type Coordinates, type Menu } from '@/types'
+import { type Place, type Coordinates, type Menu } from '@/types'
 import PlaceList from '@/pages/Home/PlaceList'
 import { menus, rates } from '@/static'
 
 const Home: FC = () => {
+  const coordinates: Coordinates = { lat: 52.377956, lng: 4.897070 }
   const [loading, setLoading] = useState<boolean>(false)
   const [showMap, setShowMap] = useState<boolean>(true)
   const [places, setPlaces] = useState<Place[]>([])
   const [filteredPlaces, setFilteredPlaces] = useState<Place[]>([])
-  const [coordinates, setCoordinates] = useState<Coordinates>({ lat: 52.13, lng: 5.29 })
-  const [bounds, setBounds] = useState<Bounds>({} as any)
   const [rating, setRating] = useState<Menu>({ label: 'Rating', value: '0' })
   const [type, setType] = useState<Menu>({ label: 'Type', value: 'restaurants' })
 
   useEffect(() => {
     setLoading(true)
-    getLocalBusiness(type.value, coordinates.lat, coordinates.lng).then((data) => {
+    getLocalBusiness(type.value).then((data) => {
       setPlaces(data?.filter((place: Place) => place.name))
       setFilteredPlaces([])
       setLoading(false)
     }).catch((error) => { console.log(error) })
-  }, [type, bounds])
+  }, [type])
 
   useEffect(() => {
     const filtered = places.filter(place => Number(place.rating) > Number(rating.value))
@@ -33,7 +32,7 @@ const Home: FC = () => {
 
   return (
     <>
-      <Header setCoordinates={setCoordinates} />
+      <Header />
 
       <div className="flex flex-wrap gap-6 px-4 my-4">
         <DropDown
@@ -62,8 +61,6 @@ const Home: FC = () => {
           places={filteredPlaces.length ? filteredPlaces : places}
           className="relative rounded-xl overflow-hidden"
           coordinates={coordinates}
-          setCoordinates={setCoordinates}
-          setBounds={setBounds}
         />
       </div>
 
@@ -73,13 +70,10 @@ const Home: FC = () => {
             places={filteredPlaces.length ? filteredPlaces : places}
             className="relative rounded-xl overflow-hidden"
             coordinates={coordinates}
-            setCoordinates={setCoordinates}
-            setBounds={setBounds}
           />
           : <PlaceList loading={loading} places={filteredPlaces.length ? filteredPlaces : places} />
         }
       </div>
-
     </>
   )
 }
