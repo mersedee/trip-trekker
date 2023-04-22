@@ -5,8 +5,9 @@ import { type Place, type Coordinates, type Menu } from '@/types'
 import PlaceList from '@/pages/Home/PlaceList'
 import { menus, rates } from '@/static'
 
+const coordinates: Coordinates = { lat: 52.377956, lng: 4.897070 }
+
 const Home: FC = () => {
-  const coordinates: Coordinates = { lat: 52.377956, lng: 4.897070 }
   const [loading, setLoading] = useState<boolean>(false)
   const [showMap, setShowMap] = useState<boolean>(true)
   const [places, setPlaces] = useState<Place[]>([])
@@ -24,7 +25,7 @@ const Home: FC = () => {
   }, [type])
 
   useEffect(() => {
-    const filtered = places.filter(place => Number(place.rating) > Number(rating.value))
+    const filtered = places.filter(place => place.rating > Number(rating.value))
     setFilteredPlaces(filtered)
   }, [rating])
 
@@ -56,7 +57,10 @@ const Home: FC = () => {
       </div>
 
       <div className="md:grid hidden grid-cols-2 px-4">
-        <PlaceList loading={loading} places={filteredPlaces.length ? filteredPlaces : places} />
+        <PlaceList
+          loading={loading}
+          places={filteredPlaces.length ? filteredPlaces : places}
+        />
         <Map
           places={filteredPlaces.length ? filteredPlaces : places}
           className="relative rounded-xl overflow-hidden"
@@ -71,7 +75,10 @@ const Home: FC = () => {
             className="relative rounded-xl overflow-hidden"
             coordinates={coordinates}
           />
-          : <PlaceList loading={loading} places={filteredPlaces.length ? filteredPlaces : places} />
+          : <PlaceList
+            loading={loading}
+            places={filteredPlaces.length ? filteredPlaces : places}
+          />
         }
       </div>
     </>

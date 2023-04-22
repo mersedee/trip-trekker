@@ -21,7 +21,7 @@ const PlaceList: FC<Props> = ({ loading, places }) => {
             name={place.name}
             photo={place.photos_sample ? place.photos_sample[0].photo_url : undefined}
             ranking={place.rating}
-            address={place.address}
+            address={`${place.street_address}, ${place.city}`}
             description={place.about?.summary}
             website={place.website}
           />)

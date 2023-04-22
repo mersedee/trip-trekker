@@ -30,11 +30,11 @@ const Card: FC<Props> = ({
       <div className="p-4">
         <a href={website} target="_blank" rel="noreferrer">
           <h5 className="flex justify-between items-start tracking-tight">
-            <span className="text-lg font-medium">{name}</span>
+            <span className="text-base font-medium">{name}</span>
             {ranking &&
               <div className="flex justify-between items-center mt-1">
                 <Star size={20} fill="gold" color="gold"/>
-                <span className="text-sm ml-1">{Math.round(ranking * 2) / 2}</span>
+                <span className="text-sm ml-1">{ranking}</span>
               </div>
             }
           </h5>

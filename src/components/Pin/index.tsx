@@ -51,7 +51,7 @@ const Pin: FC<Props> = ({
                 {ranking &&
                     <span className="flex items-center">
                       <Star size={12} fill="gold" color="gold"/>
-                      <span className="text-sm ml-1">{Math.round(+ranking * 2) / 2}</span>
+                      <span className="text-sm ml-1">{ranking}</span>
                     </span>
                 }
                 <span className="text-sm font-medium">{name?.slice(0, 18)}</span>
