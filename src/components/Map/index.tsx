@@ -1,7 +1,7 @@
 import { type FC, type Dispatch, type SetStateAction, useState } from 'react'
 import GoogleMapReact from 'google-map-react'
 import { type Coordinates, type Bounds, type Place } from '@/types'
-import Pointer from '@/components/Pointer'
+import Pin from '@/components/Pin'
 import styles from './styles'
 
 interface Props {
@@ -45,7 +45,7 @@ const Map: FC<Props> = ({
         options={{ disableDefaultUI: true, zoomControl: true, styles }}
       >
         {places?.map((place, index) =>
-          <Pointer
+          <Pin
             key={place.place_id}
             name={place.name}
             photo={place.photos_sample[0].photo_url}

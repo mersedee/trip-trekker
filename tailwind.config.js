@@ -15,7 +15,8 @@ export default {
         400: '#939396',
         500: '#24282b'
       },
-      white: '#fff'
+      white: '#fff',
+      transparent: 'transparent'
     }
   },
   plugins: []

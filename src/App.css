@@ -95,3 +95,29 @@
     }
 }
 
+.pin {
+    box-shadow: rgba(39, 36, 41, 0.12) 0 3px 12px, rgba(39, 36, 41, 0.1) 0 0 3px;
+}
+
+.pin:before {
+    box-shadow: rgba(39, 36, 41, 0.12) 0 1px 4px, rgba(39, 36, 41, 0.08) 0 0 1px;
+    z-index: -1;
+}
+
+.pin:after {
+    background: rgb(255, 255, 255);
+    z-index: 1;
+}
+
+.pin:before, .pin:after {
+    display: block;
+    content: "";
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    bottom: -5px;
+    left: calc(50% - 4px);
+    border-radius: 2px 0;
+    transform: rotate(45deg);
+}
+

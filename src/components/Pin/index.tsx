@@ -1,5 +1,5 @@
 import { type FC } from 'react'
-import { Star, MapPin, ChevronDown } from 'react-feather'
+import { Star, MapPin, X } from 'react-feather'
 import sampleSrc from '@/assets/images/sample-restaurant.png'
 
 interface Props {
@@ -14,37 +14,30 @@ interface Props {
   onToggle: () => void
 }
 
-const Pointer: FC<Props> = ({
+const Pin: FC<Props> = ({
   name,
   photo,
   price,
   ranking,
-  website,
   active,
   onToggle
 }) => {
   return (
     <>
-      <div
-        className="relative bg-gray-500 rounded-lg p-2 w-fit h-fit hover:scale-[1.10] ease-in-out duration-300"
-        onClick={onToggle}
-      >
-        <MapPin color="white" size={16} />
-        <ChevronDown
-          className="absolute left-[50%] mt-[-2px]"
-          style={{ transform: 'translateX(-50%)' }}
-          color="#24282b"
-          fill="#24282b"
-        />
+      <div className="relative z-10 hover:z-20 hover:scale-[1.10] ease-in-out duration-300" onClick={onToggle}>
+        <div className="pin w-fit relative cursor-pointer min-h-4 min-w-4 px-2 py-1 rounded-lg mb-1 bg-white border border-solid border-transparent">
+          <MapPin size={16} />
+        </div>
       </div>
 
       {active &&
-          <a
-            href={website}
-            target="_blank"
-            rel="noreferrer"
-            className="flex bg-white border border-gray-50 rounded-lg shadow flex-row w-fit p-2 mt-2 ml-[-96px] relative z-10 cursor-pointer"
-          >
+          <div className="relative z-30 flex bg-white border border-gray-50 rounded-lg shadow flex-row w-fit p-2 mt-2 ml-[-96px]">
+            <X
+              size={20}
+              className="cursor-pointer absolute right-2 top-2"
+              onClick={onToggle}
+            />
+
             <img
               className="object-cover rounded-lg h-[80px] w-[80px]"
               src={photo ?? sampleSrc}
@@ -65,10 +58,10 @@ const Pointer: FC<Props> = ({
                 {price}
               </p>
             </div>
-          </a>
+          </div>
       }
     </>
   )
 }
 
-export default Pointer
+export default Pin
