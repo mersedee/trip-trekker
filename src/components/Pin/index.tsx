@@ -29,7 +29,7 @@ const Pin: FC<Props> = ({
   return (
     <>
       <div
-        className={`relative z-10 hover:z-20 hover:scale-[1.10] ease-in-out duration-300 ${isOnHover ? 'z-20' : ''}`}
+        className={`relative z-10 hover:z-20 hover:scale-[1.10] transition-transform duration-100 ease-in-out delay-0 ${isOnHover ? 'z-20' : ''}`}
         onClick={onToggle}
       >
         <div
