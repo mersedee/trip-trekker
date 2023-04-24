@@ -36,31 +36,36 @@ const Home: FC = () => {
 
   return (
     <>
-      <Header />
+      <div className="sticky top-0">
+        <Header />
 
-      <div className="flex flex-wrap gap-6 px-4 my-4">
-        <DropDown
-          menus={menus}
-          width={150}
-          selectedOption={type}
-          setSelectedOption={setType}
-        />
-        <DropDown
-          menus={rates}
-          width={150}
-          selectedOption={rating}
-          setSelectedOption={setRating}
-        />
-        <button
-          type="button"
-          onClick={onToggleMap}
-          className="md:hidden block text-sm border border-gray-50 w-[150px] text-center focus:outline-none py-2.5 font-medium rounded-lg">
-          {showMap ? 'Hide' : 'Show'} Map
-        </button>
+        <div className="flex gap-6 px-4 py-4 bg-white overflow-x-auto">
+          <DropDown
+            menus={menus}
+            width={150}
+            selectedOption={type}
+            setSelectedOption={setType}
+          />
+          <DropDown
+            menus={rates}
+            width={150}
+            selectedOption={rating}
+            setSelectedOption={setRating}
+          />
+          <button
+            type="button"
+            onClick={onToggleMap}
+            className="md:hidden block text-sm border border-gray-50 w-[150px] min-w-[150px] text-center focus:outline-none py-2.5 font-medium rounded-lg">
+            {showMap ? 'Hide' : 'Show'} Map
+          </button>
+        </div>
+
+        <hr className="my-0 border-gray-50" />
       </div>
 
-      <div className="md:grid hidden grid-cols-2 px-4">
+      <div className="md:grid hidden grid-cols-2 pl-4">
         <PlaceList
+          className="my-4"
           loading={loading}
           onHover={onHover}
           places={filteredPlaces.length ? filteredPlaces : places}
@@ -68,20 +73,21 @@ const Home: FC = () => {
         <Map
           hoverId={hoveredId}
           places={filteredPlaces.length ? filteredPlaces : places}
-          className="relative rounded-xl overflow-hidden"
+          className="sticky h-[calc(100vh_-_142px)] top-[142px] mt-[-16px]"
           coordinates={coordinates}
         />
       </div>
 
-      <div className="md:hidden block px-4">
+      <div className="md:hidden block">
         {showMap
           ? <Map
             hoverId={hoveredId}
             places={filteredPlaces.length ? filteredPlaces : places}
-            className="relative rounded-xl overflow-hidden"
+            className="sticky h-[calc(100vh_-_142px)] top-[142px]"
             coordinates={coordinates}
           />
           : <PlaceList
+            className="my-4 pl-4"
             loading={loading}
             onHover={onHover}
             places={filteredPlaces.length ? filteredPlaces : places}

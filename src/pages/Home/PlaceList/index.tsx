@@ -6,16 +6,17 @@ interface Props {
   loading: boolean
   places: Place[]
   onHover: (arg: string | null) => void
+  className?: string
 }
 
-const PlaceList: FC<Props> = ({ loading, places, onHover }) => {
+const PlaceList: FC<Props> = ({ loading, places, onHover, className }) => {
   return loading
     ? (
       <div className="flex justify-center items-center max-h-[90vh]">
         <Loading />
       </div>)
     : (
-      <div className="grid sm:grid-cols-2 grid-cols-1 w-fit mx-auto gap-6 pr-8 max-h-[90vh] overflow-y-auto">
+      <div className={`grid sm:grid-cols-2 grid-cols-1 w-fit mx-auto gap-6 pr-4 ${className}`}>
         {places?.map((place: Place) =>
           <div
             key={place.place_id}

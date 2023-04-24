@@ -32,7 +32,7 @@ const Map: FC<Props> = ({
   return (
     <div className={className}>
       <GoogleMapReact
-        style={{ height: '90vh', width: '100%' }}
+        style={{ width: '100%' }}
         bootstrapURLKeys={{ key }}
         center={defaultProps.center}
         defaultZoom={defaultProps.zoom}
