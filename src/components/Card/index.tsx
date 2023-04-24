@@ -1,13 +1,16 @@
 import { type FC } from 'react'
 import { Star, MapPin } from 'react-feather'
+import truncateText from '@/helpers/truncateText'
 import sampleSrc from '@/assets/images/sample-restaurant.png'
 
 interface Props {
-  name?: string
+  name: string
+  type: string
   photo?: string
   ranking?: number
   address?: string
   description?: string
+  details?: any
   website?: string
   selected?: boolean
   refEl?: any
@@ -16,21 +19,68 @@ interface Props {
 const Card: FC<Props> = ({
   photo,
   name,
+  type,
   ranking,
   address,
   description,
-  website
+  website,
+  details
 }) => {
+  const generateDescription = (): string => {
+    if (description) return truncateText(description, 60)
+
+    if (details?.Offerings) {
+      const offerings = Object.entries(details.Offerings)
+        .filter(([, value]) => value)
+        .map(([key]) => key)
+        .join(', ')
+      return offerings
+        ? `The ${type} offers ${truncateText(offerings, 45)}`
+        : ''
+    }
+
+    if (details?.Amenities) {
+      const kidAmenity = 'Good for kids'
+      const amenities = Object.entries(details.Amenities)
+        .filter(([, value]) => value)
+        .map(([key]) => key)
+      if (amenities.length === 0) {
+        return ''
+      } else if (amenities.length === 1 && amenities[0] === kidAmenity) {
+        return `The ${type} is good for kids`
+      } else {
+        const hasKidsAmenity = amenities.includes(kidAmenity)
+        const otherAmenities = amenities
+          .filter((amenity) => amenity !== kidAmenity)
+          .join(', ')
+        return hasKidsAmenity
+          ? `The ${type} is good for kids and has ${truncateText(
+            otherAmenities,
+            45
+          )}`
+          : `The ${type} has ${truncateText(otherAmenities, 45)}`
+      }
+    }
+
+    return ''
+  }
+
   return (
-    <div className="max-w-sm bg-white border border-gray-50 rounded-xl shadow">
+    <div className="h-full max-w-sm bg-white border border-gray-50 rounded-xl shadow">
       <a href={website} target="_blank" className="block pt-3 px-3" rel="noreferrer">
-        <img className="rounded-xl object-cover h-[200px] w-full" src={photo ?? sampleSrc} alt="sample"/>
+        <img
+          className="rounded-xl object-cover h-[200px] w-full"
+          src={photo ?? sampleSrc}
+          alt={name}
+        />
       </a>
 
       <div className="p-4">
         <a href={website} target="_blank" rel="noreferrer">
           <h5 className="flex justify-between items-start tracking-tight">
-            <span className="text-base font-medium">{name}</span>
+            <span className="text-base font-medium">
+              {truncateText(name, 29)}
+            </span>
             {ranking &&
               <div className="flex justify-between items-center mt-1">
                 <Star size={20} fill="gold" color="gold"/>
@@ -47,9 +97,9 @@ const Card: FC<Props> = ({
           </div>
         </div>
 
-        <p className="text-sm mt-2 font-normal text-gray-700">
-          {description ? description?.slice(0, 115).concat('...') : ''}
-        </p>
+        <ul className="flex flex-wrap list-none mt-2">
+          {generateDescription()}
+        </ul>
       </div>
     </div>
 

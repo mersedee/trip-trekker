@@ -13,7 +13,7 @@ const Home: FC = () => {
   const [places, setPlaces] = useState<Place[]>([])
   const [filteredPlaces, setFilteredPlaces] = useState<Place[]>([])
   const [rating, setRating] = useState<Menu>({ label: 'Rating', value: '0' })
-  const [type, setType] = useState<Menu>({ label: 'Type', value: 'restaurants' })
+  const [type, setType] = useState<Menu>(menus[0])
   const [hoveredId, setHoveredId] = useState<string | null>(null)
 
   useEffect(() => {
@@ -32,7 +32,7 @@ const Home: FC = () => {
 
   const onToggleMap = (): void => { setShowMap((prevState: boolean) => !prevState) }
 
-  const onHover = (id: string | null): void => { setHoveredId(id); console.warn(id) }
+  const onHover = (id: string | null): void => { setHoveredId(id) }
 
   return (
     <>

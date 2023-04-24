@@ -24,10 +24,12 @@ const PlaceList: FC<Props> = ({ loading, places, onHover }) => {
           >
             <Card
               name={place.name}
+              type={place.type}
               photo={place.photos_sample ? place.photos_sample[0].photo_url : undefined}
               ranking={place.rating}
-              address={`${place.street_address}, ${place.city}`}
+              address={place.street_address.length > 25 ? place.street_address : `${place.street_address}, ${place.city}`}
               description={place.about?.summary}
+              details={place.about?.details}
               website={place.website}
             />
           </div>

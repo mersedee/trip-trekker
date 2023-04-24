@@ -44,7 +44,6 @@ const Map: FC<Props> = ({
             name={place.name}
             photo={place.photos_sample ? place.photos_sample[0]?.photo_url : undefined}
             ranking={place.rating}
-            price={place.price_level}
             lat={place.latitude}
             lng={place.longitude}
             website={place.website}

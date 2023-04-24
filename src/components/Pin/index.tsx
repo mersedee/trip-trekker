@@ -1,11 +1,11 @@
 import { type FC } from 'react'
 import { Star, MapPin, X } from 'react-feather'
+import truncateText from '@/helpers/truncateText'
 import sampleSrc from '@/assets/images/sample-restaurant.png'
 
 interface Props {
-  name?: string
+  name: string
   photo?: string
-  price?: any
   ranking?: number
   website?: string
   lat?: number
@@ -19,7 +19,6 @@ interface Props {
 const Pin: FC<Props> = ({
   name,
   photo,
-  price,
   ranking,
   active,
   onToggle,
@@ -53,7 +52,7 @@ const Pin: FC<Props> = ({
               alt={name}
             />
 
-            <div className="flex flex-col justify-between px-3 leading-normal min-w-[120px]">
+            <div className="flex flex-col justify-between pl-3 pr-2 leading-normal min-w-[140px]">
               <h5 className="flex flex-col">
                 {ranking &&
                     <span className="flex items-center">
@@ -61,11 +60,10 @@ const Pin: FC<Props> = ({
                       <span className="text-sm ml-1">{ranking}</span>
                     </span>
                 }
-                <span className="text-sm font-medium">{name?.slice(0, 18)}</span>
+                <span className={`text-sm font-medium ${!ranking && 'mt-4'}`}>
+                  {truncateText(name, 15)}
+                </span>
               </h5>
-              <p className="text-sm text-gray-300">
-                {price}
-              </p>
             </div>
           </div>
       }
