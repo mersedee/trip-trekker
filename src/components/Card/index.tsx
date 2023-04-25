@@ -1,7 +1,8 @@
-import { type FC } from 'react'
+import { type FC, type SyntheticEvent } from 'react'
 import { Star, MapPin } from 'react-feather'
 import truncateText from '@/helpers/truncateText'
 import sampleSrc from '@/assets/images/sample-restaurant.png'
+import handleImageError from '@/helpers/handleImageError'
 
 interface Props {
   name: string
@@ -71,6 +72,7 @@ const Card: FC<Props> = ({
         <img
           className="rounded-xl object-cover h-[200px] w-full"
           src={photo ?? sampleSrc}
+          onError={handleImageError}
           alt={name}
         />
       </a>

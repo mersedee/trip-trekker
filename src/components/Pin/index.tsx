@@ -2,6 +2,7 @@ import { type FC } from 'react'
 import { Star, MapPin, X } from 'react-feather'
 import truncateText from '@/helpers/truncateText'
 import sampleSrc from '@/assets/images/sample-restaurant.png'
+import handleImageError from '@/helpers/handleImageError'
 
 interface Props {
   name: string
@@ -49,6 +50,7 @@ const Pin: FC<Props> = ({
             <img
               className="object-cover rounded-lg h-[80px] w-[80px]"
               src={photo ?? sampleSrc}
+              onError={handleImageError}
               alt={name}
             />
 
