@@ -1,4 +1,5 @@
 import { type FC, useEffect, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
 import { Header, Map, DropDown } from '@/components'
 import { getLocalBusiness } from '@/api'
 import { type Place, type Coordinates, type Menu } from '@/types'
@@ -6,28 +7,28 @@ import PlaceList from '@/pages/Home/PlaceList'
 import { menus, rates } from '@/static'
 
 const coordinates: Coordinates = { lat: 52.377956, lng: 4.897070 }
+const initialRating = { label: 'Rating', value: '0' }
 
 const Home: FC = () => {
-  const [loading, setLoading] = useState<boolean>(false)
   const [showMap, setShowMap] = useState<boolean>(true)
-  const [places, setPlaces] = useState<Place[]>([])
   const [filteredPlaces, setFilteredPlaces] = useState<Place[]>([])
-  const [rating, setRating] = useState<Menu>({ label: 'Rating', value: '0' })
+  const [rating, setRating] = useState<Menu>(initialRating)
   const [type, setType] = useState<Menu>(menus[0])
   const [hoveredId, setHoveredId] = useState<string | null>(null)
 
-  useEffect(() => {
-    setLoading(true)
-    getLocalBusiness(type.value).then((data) => {
-      setPlaces(data?.filter((place: Place) => place.name))
-      setFilteredPlaces([])
-      setLoading(false)
-    }).catch((error) => { console.log(error) })
-  }, [type])
+  const { data: places = [], isLoading } = useQuery<Place[]>(
+    {
+      queryKey: ['places', type.value],
+      queryFn: async () => {
+        setRating(initialRating)
+        setFilteredPlaces([])
+        return await getLocalBusiness(type.value)
+      }
+    })
 
   useEffect(() => {
-    const filtered = places.filter(place => place.rating > Number(rating.value))
-    setFilteredPlaces(filtered)
+    const filtered = places?.filter(place => place.rating > Number(rating.value))
+    setFilteredPlaces(filtered ?? [])
   }, [rating])
 
   const onToggleMap = (): void => { setShowMap((prevState: boolean) => !prevState) }
@@ -66,13 +67,13 @@ const Home: FC = () => {
       <div className="md:grid hidden grid-cols-2 pl-4">
         <PlaceList
           className="my-4"
-          loading={loading}
+          loading={isLoading}
           onHover={onHover}
-          places={filteredPlaces.length ? filteredPlaces : places}
+          places={filteredPlaces?.length ? filteredPlaces : places}
         />
         <Map
           hoverId={hoveredId}
-          places={filteredPlaces.length ? filteredPlaces : places}
+          places={filteredPlaces?.length ? filteredPlaces : places}
           className="sticky h-[calc(100vh_-_142px)] top-[142px] mt-[-16px]"
           coordinates={coordinates}
         />
@@ -82,15 +83,15 @@ const Home: FC = () => {
         {showMap
           ? <Map
             hoverId={hoveredId}
-            places={filteredPlaces.length ? filteredPlaces : places}
+            places={filteredPlaces?.length ? filteredPlaces : places}
             className="sticky h-[calc(100vh_-_142px)] top-[142px]"
             coordinates={coordinates}
           />
           : <PlaceList
             className="my-4 pl-4"
-            loading={loading}
+            loading={isLoading}
             onHover={onHover}
-            places={filteredPlaces.length ? filteredPlaces : places}
+            places={filteredPlaces?.length ? filteredPlaces : places}
           />
         }
       </div>
