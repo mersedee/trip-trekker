@@ -18,6 +18,15 @@ const styles = [
     ]
   },
   {
+    featureType: 'poi',
+    elementType: 'labels.text',
+    stylers: [
+      {
+        visibility: 'off'
+      }
+    ]
+  },
+  {
     featureType: 'landscape',
     elementType: 'all',
     stylers: [
