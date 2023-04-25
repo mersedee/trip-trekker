@@ -37,10 +37,6 @@ export interface Place {
   zipcode: string
   state: State
   country: Country
-  hotel_location_rating: HotelLocationRating
-  hotel_amenities: HotelAmenities | null
-  hotel_stars: number | null
-  hotel_review_summary: HotelReviewSummary | null
 }
 
 export interface About {
@@ -58,29 +54,6 @@ export enum City {
 
 export enum Country {
   Us = 'US',
-}
-
-export interface HotelAmenities {
-  'Free Wi-Fi': boolean
-  'Free breakfast'?: boolean
-}
-
-export interface HotelLocationRating {
-  Overall: number
-  'Things to do': number
-  Transit: number
-  Airports: number
-}
-
-export interface HotelReviewSummary {
-  Rooms: Location
-  Location: Location
-  'Service & facilities': Location
-}
-
-export interface Location {
-  score: number
-  summary?: string[]
 }
 
 export interface PhotosSample {

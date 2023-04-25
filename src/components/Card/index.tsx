@@ -1,4 +1,4 @@
-import { type FC, type SyntheticEvent } from 'react'
+import { type FC } from 'react'
 import { Star, MapPin } from 'react-feather'
 import truncateText from '@/helpers/truncateText'
 import sampleSrc from '@/assets/images/sample-restaurant.png'
@@ -8,13 +8,11 @@ interface Props {
   name: string
   type: string
   photo?: string
-  ranking?: number
-  address?: string
+  ranking: number
+  address: string
   description?: string
-  details?: any
+  details: any
   website?: string
-  selected?: boolean
-  refEl?: any
 }
 
 const Card: FC<Props> = ({

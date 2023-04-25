@@ -7,7 +7,7 @@ import handleImageError from '@/helpers/handleImageError'
 interface Props {
   name: string
   photo?: string
-  ranking?: number
+  ranking: number
   website?: string
   lat?: number
   lng?: number
