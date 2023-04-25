@@ -39,7 +39,7 @@ const Home: FC = () => {
       <div className="sticky top-0">
         <Header />
 
-        <div className="flex gap-6 px-4 py-4 bg-white overflow-x-auto">
+        <div className="flex gap-6 px-4 py-4 bg-white overflow-x-auto overflow-y-hidden">
           <DropDown
             menus={menus}
             width={150}

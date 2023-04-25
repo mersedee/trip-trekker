@@ -33,10 +33,14 @@ const DropDown: FC<Props> = ({ menus, width, selectedOption, setSelectedOption }
   const handleOptionClick = (option: Menu): void => {
     setSelectedOption(option)
     Toggle()
+    window.scroll({
+      top: 0,
+      behavior: "smooth",
+    });
   }
 
   return (
-    <div ref={ref} className="relative w-fit">
+    <div ref={ref} className="w-fit">
       <button
         type="button"
         style={{ width: `${width}px` }}
@@ -52,7 +56,7 @@ const DropDown: FC<Props> = ({ menus, width, selectedOption, setSelectedOption }
           {menus.map(menu => (
             <li
               key={menu.value}
-              className="block px-4 py-2 hover:bg-gray-50 cursor-pointer"
+              className="block px-4 py-2 hover:bg-gray-50 cursor-pointer static z-20"
               onClick={() => { handleOptionClick(menu) } }
             >
               {menu.label}
