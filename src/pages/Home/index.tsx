@@ -1,5 +1,6 @@
 import { type FC, useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
+import { useSearchParams } from 'react-router-dom'
 import { Header, Map, DropDown } from '@/components'
 import { getLocalBusiness } from '@/api'
 import { type Place, type Coordinates, type Menu } from '@/types'
@@ -10,17 +11,22 @@ const coordinates: Coordinates = { lat: 52.377956, lng: 4.897070 }
 const initialRating = { label: 'Rating', value: '0' }
 
 const Home: FC = () => {
+  const [searchParams, setSearchParams] = useSearchParams()
+  const rateParam = searchParams.get('rating')
+  const findRateParam = rateParam ? rates.find(rate => rate.value === rateParam) as Menu : initialRating
+  const typeParam = searchParams.get('type')
+  const findTypeParam = typeParam ? menus.find(menu => menu.value === typeParam) as Menu : menus[0]
+
   const [showMap, setShowMap] = useState<boolean>(true)
   const [filteredPlaces, setFilteredPlaces] = useState<Place[]>([])
-  const [rating, setRating] = useState<Menu>(initialRating)
-  const [type, setType] = useState<Menu>(menus[0])
+  const [rating, setRating] = useState<Menu>(findRateParam)
+  const [type, setType] = useState<Menu>(findTypeParam)
   const [hoveredId, setHoveredId] = useState<string | null>(null)
 
   const { data: places = [], isLoading } = useQuery<Place[]>(
     {
       queryKey: ['places', type.value],
       queryFn: async () => {
-        setRating(initialRating)
         setFilteredPlaces([])
         return await getLocalBusiness(type.value)
       }
@@ -29,11 +35,23 @@ const Home: FC = () => {
   useEffect(() => {
     const filtered = places?.filter(place => place.rating > Number(rating.value))
     setFilteredPlaces(filtered ?? [])
-  }, [rating])
+  }, [rating, places])
 
   const onToggleMap = (): void => { setShowMap((prevState: boolean) => !prevState) }
 
   const onHover = (id: string | null): void => { setHoveredId(id) }
+
+  const onChangeRating = (option: Menu): void => {
+    setRating(option)
+    searchParams.set('rating', option.value)
+    setSearchParams(searchParams)
+  }
+
+  const onChangeType = (option: Menu): void => {
+    setType(option)
+    searchParams.set('type', option.value)
+    setSearchParams(searchParams)
+  }
 
   return (
     <>
@@ -45,13 +63,13 @@ const Home: FC = () => {
             menus={menus}
             width={150}
             selectedOption={type}
-            setSelectedOption={setType}
+            onChange={onChangeType}
           />
           <DropDown
             menus={rates}
             width={150}
             selectedOption={rating}
-            setSelectedOption={setRating}
+            onChange={onChangeRating}
           />
           <button
             type="button"

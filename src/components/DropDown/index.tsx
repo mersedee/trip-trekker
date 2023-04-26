@@ -1,4 +1,4 @@
-import { type FC, type Dispatch, type SetStateAction, useState, useRef, useEffect } from 'react'
+import { type FC, useState, useRef, useEffect } from 'react'
 import { ChevronDown } from 'react-feather'
 import { type Menu } from '@/types'
 
@@ -6,10 +6,15 @@ interface Props {
   menus: Menu[]
   width?: number
   selectedOption: Menu
-  setSelectedOption: Dispatch<SetStateAction<Menu>>
+  onChange: (arg: Menu) => void
 }
 
-const DropDown: FC<Props> = ({ menus, width, selectedOption, setSelectedOption }) => {
+const DropDown: FC<Props> = ({
+  menus,
+  selectedOption,
+  width,
+  onChange
+}) => {
   const [open, setOpen] = useState<boolean>(false)
   const ref = useRef<HTMLDivElement>(null)
 
@@ -31,12 +36,12 @@ const DropDown: FC<Props> = ({ menus, width, selectedOption, setSelectedOption }
   const Toggle = (): void => { setOpen((prevOpen) => !prevOpen) }
 
   const handleOptionClick = (option: Menu): void => {
-    setSelectedOption(option)
+    onChange(option)
     Toggle()
     window.scroll({
       top: 0,
-      behavior: "smooth",
-    });
+      behavior: 'smooth'
+    })
   }
 
   return (
