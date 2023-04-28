@@ -18,6 +18,7 @@ To get started with TripTrekker, follow these steps:
 - TypeScript
 - Tailwind CSS
 - Vite
+- React Query
 - JSON Server
 - Google Maps API
 
