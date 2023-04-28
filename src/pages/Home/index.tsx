@@ -32,15 +32,13 @@ const Home: FC = () => {
   const { data: places = [], isLoading } = useQuery<Place[]>(
     {
       queryKey: ['places', type.value],
-      queryFn: async () => {
-        setFilteredPlaces([])
-        return await getLocalBusiness(type.value)
-      }
+      queryFn: async () => await getLocalBusiness(type.value)
     })
 
   useEffect(() => {
     const filtered = places?.filter(place => place.rating > Number(rating.value))
     setFilteredPlaces(filtered ?? [])
+    console.warn(filtered)
   }, [rating, places])
 
   const onToggleMap = (): void => { setShowMap((prevState: boolean) => !prevState) }
