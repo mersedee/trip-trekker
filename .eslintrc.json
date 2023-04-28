@@ -22,7 +22,7 @@
         "quotes": [2, "single", { "avoidEscape": true }],
         "react/react-in-jsx-scope": ["off"],
         "react/jsx-uses-react": ["off"],
-        "react/jsx-props-no-spreading": ["warn"],
+        "react/jsx-props-no-spreading": 0,
         "react/no-unescaped-entities": ["off"],
         "@typescript-eslint/restrict-template-expressions": 0,
         "@typescript-eslint/strict-boolean-expressions": 0,
